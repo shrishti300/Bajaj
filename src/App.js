@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useState} from 'react';
 import JsonData from './newdoc.json';
 import "tailwindcss/tailwind.css"
 
 const MyComponent = () => {
- // console.log(JsonData);
+   const [newinfo, setNewinfo] = useState(undefined);
+   const [filter, setFilter] = useState([]);
    const data = JsonData.employees;
    console.log(data);
 
+   const onsubmithandler=()=>{
+    const filtered_data = data.filter((item)=>{
+        return item.name===newinfo;
+    })
+   setFilter(filtered_data);
+   }
+   
   return (
-    <div className='bg-gray-100'>
-      {data.map((_data) =>(
+    <div className='bg-gray-100 w-screen h-screen p-10'>
+      <p className='font-bold text-2xl'>ENTER THE NAME OF PERSON : </p>
+      <p className='text-red-500'>Format: Mr. (name)</p>
+      <input type='text' className='px-10 py-4 m-10' value={newinfo} onChange={(e)=>{
+        setNewinfo(e.target.value);
+      }}></input>
+      <button type='submit' className='bg-blue-200 px-6 py-2' onClick={onsubmithandler}> submit </button>
+      {filter&&filter?.map((_data) =>(
         <div className="container mx-auto " key={_data.id}>
         <h1 className="text-2xl font-bold mb-4 bg-blue-100 rounder-xl p-4">Name: {_data.name}</h1>
         
